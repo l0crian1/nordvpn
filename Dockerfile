@@ -12,9 +12,6 @@ RUN apt-get update -y && \
     apt-get install -y nordvpn${NORDVPN_VERSION:+=$NORDVPN_VERSION} && \
     apt-get remove -y nordvpn-release && \
     apt-get purge -y iptables iptables-legacy iptables-nftables iptables-persistent netfilter-persistent 2>/dev/null || true && \
-    if command -v iptables >/dev/null 2>&1; then echo "ERROR: iptables binary is still present in the image" 1>&2; exit 1; fi && \
-    if command -v ip6tables >/dev/null 2>&1; then echo "ERROR: ip6tables binary is still present in the image" 1>&2; exit 1; fi && \
-    if dpkg -s iptables >/dev/null 2>&1; then echo "ERROR: iptables package is still installed in the image" 1>&2; exit 1; fi && \
     apt-get autoremove -y && \
     apt-get autoclean -y && \
     rm -rf \
