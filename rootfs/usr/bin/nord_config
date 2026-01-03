@@ -6,7 +6,19 @@ nordvpn set technology ${TECHNOLOGY:-NordLynx}
 
 [[ -n ${CYBER_SEC} ]] && nordvpn set cybersec ${CYBER_SEC}
 [[ -n ${OBFUSCATE} ]] && nordvpn set obfuscate ${OBFUSCATE}
-[[ -n ${FIREWALL} ]] && nordvpn set firewall ${FIREWALL}
+# This image does not ship Linux firewall tooling; force NordVPN firewall/killswitch off.
+echo "Disabling NordVPN firewall/killswitch."
+nordvpn set firewall Disable >/dev/null 2>&1 || true
+nordvpn set killswitch Disable >/dev/null 2>&1 || true
+
+# Ignore user attempts to enable these features: they are not supported in this image.
+if [[ -n ${FIREWALL} ]] && [[ "${FIREWALL,,}" != "disable" ]]; then
+  echo "NOTE: FIREWALL=${FIREWALL} requested, but firewall management is not supported in this image."
+fi
+if [[ -n ${KILLSWITCH} ]] && [[ "${KILLSWITCH,,}" != "disable" ]]; then
+  echo "NOTE: KILLSWITCH=${KILLSWITCH} requested, but killswitch is not supported in this image."
+fi
+
 [[ -n ${MESHNET} ]] && nordvpn set meshnet ${MESHNET}
 [[ -n ${LAN_DISCOVERY} ]] && nordvpn set lan-discovery ${LAN_DISCOVERY}
 
@@ -28,8 +40,6 @@ if [[ -n ${MESHNET} ]]; then
     done
   fi
 fi
-
-#[[ -n ${KILLSWITCH} ]] && nordvpn set killswitch ${KILLSWITCH} Killswitch is enabled by default using iptables
 
 [[ -n ${PROTOCOL} ]] && nordvpn set protocol ${PROTOCOL}
 

@@ -16,7 +16,7 @@
     <a href="https://github.com/bubuntux/nordvpn/actions/workflows/deploy.yml"><img src="https://github.com/bubuntux/nordvpn/actions/workflows/deploy.yml/badge.svg?branch=master"/></a>
 </p>
 
-Official `NordVPN` client in a docker container; it makes routing traffic through the `NordVPN` network easy and secure with an integrated iptables kill switch.
+Official `NordVPN` client in a docker container; it makes routing traffic through the `NordVPN` network easy.
 
 # How to use this image
 This container was designed to be started first to provide a connection to other containers (using `--net=container:vpn`, see below *Starting an NordVPN client instance*).
@@ -199,7 +199,6 @@ services:
 * `TECHNOLOGY` - Specify Technology to use (NordLynx by default): 
    * OpenVPN    - Traditional connection.
    * NordLynx   - NordVpn wireguard implementation (3x-5x times faster than OpenVPN).
-* `ALLOW_LIST` - List of domains that are going to be accessible _outside_ vpn (IE rarbg.to,yts.mx).
 * `NET_LOCAL`  - CIDR networks (IE 192.168.1.0/24), add a route to allows replies once the VPN is up.
 * `NET6_LOCAL` - CIDR IPv6 networks (IE fe00:d34d:b33f::/64), add a route to allows replies once the VPN is up.
 * `PORTS`  - Semicolon delimited list of ports to whitelist for both UDP and TCP. For example '- PORTS=9091;9095'
